@@ -14,7 +14,7 @@ module.exports=class Magazine{
     }
     set publishedAt (publishedAt)
     {
-        this._description=publishedAt;
+        this._publishedAt=publishedAt;
     }
     get title(){
         return this._title
