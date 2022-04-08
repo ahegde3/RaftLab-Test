@@ -48,7 +48,7 @@ var rl = readline.createInterface({
             readData()
             break;    
         case '6':
-            readData()
+            displayBookMagazine()
             break;           
         case 'close':
             console.log('Have a great day!');
@@ -71,20 +71,17 @@ function readData()
         author=res.author
         books=res.books
         magazine=res.magazine
-       // var {author,books,magazine}=res
-        //console.log(author)
-       // displayBookMagazine()
-      // findByISB('1215-4545-5895')
-     // findByEmail('null-walter@echocat.org')
-      //sortByTitle()
-
     })
 }
 
 
 function displayBookMagazine()
-{  console.log()
-    books.map((row)=>console.log(row))
+{  
+    books.map((row)=>{console.log("title: "+row.title)
+                      console.log("ISBN: "+row.isbn)
+                      console.log("Author: "+row.authors)
+                      console.log("===============================")
+                    })
 }
 
 
@@ -97,8 +94,8 @@ function findByISB(isbn)
     magazine.map((row)=>{
         if(row.isbn === isbn) res.push(row)
     })
-    
-    console.log(JSON.stringify(res))
+    console.log(res)
+    //console.log(JSON.stringify(res))
 }
 
 function findByEmail(email)
@@ -126,4 +123,3 @@ function sortByTitle()
     list.sort((a, b) => a.title.localeCompare(b.title));
     console.log(list)
 }
-//console.log(data) 
