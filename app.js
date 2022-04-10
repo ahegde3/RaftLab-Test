@@ -1,19 +1,21 @@
 var readline = require('readline');
 
 const Util=require('./Utility/readFile')
+const writer=require('./Utility/writeFile')
 
 var author,books,magazine
+var list=[]
 var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
 
  console.log("Enter 1 to read csv files ")
- console.log("Enter 2 to search by isbn number")
- console.log("Enter 3 to search by authors email id")
- console.log("Enter 4 to sort books,magazine by title")
- console.log("Enter 5 to write books magazine to csv file")
- console.log("Enter 6 to print books and magazine ")
+ console.log("Enter 2 to print books and magazine ")
+ console.log("Enter 3 to search by isbn number")
+ console.log("Enter 4 to search by authors email id")
+ console.log("Enter 5 to sort books,magazine by title")
+ console.log("Enter 6 to write books magazine to csv file")
  console.log("Enter close to close") 
  
  rl.setPrompt('>> ');
@@ -28,26 +30,30 @@ var rl = readline.createInterface({
         case '1':
             readData()
             break;
-        case '2':
+        case '3':
             if(books && magazine)
                findByISB(parameter)
             else console.log("Data not read press 1 first")
             break; 
-        case '3':
+        case '4':
             if(books && magazine)
                  findByEmail(parameter)
             else console.log("Data not read press 1 first")
            
             break;      
-        case '4':
+        case '5':
             if(books && magazine)
                 sortByTitle()
              else console.log("Data not read press 1 first")
             break;    
-        case '5':
-            readData()
-            break;    
         case '6':
+            if(books && magazine && list.length>0) writer.writeCsv(list)
+            else if(list.length==0) {createList() 
+                                     writer.writeCsv(list)
+                                    }
+            else console.log("Data not read press 1 first")                        
+            break;    
+        case '2':
             displayBookMagazine()
             break;           
         case 'close':
@@ -61,7 +67,7 @@ var rl = readline.createInterface({
     rl.prompt();
 })
 
-var author,books,magazine
+
 
 
 function readData()
@@ -113,13 +119,18 @@ function findByEmail(email)
 
 function sortByTitle()
 {
-    list=[]
+   if(list.length===0) createList()
+
+    list.sort((a, b) => a.title.localeCompare(b.title));
+    console.log(list)
+}
+
+function createList()
+{
     books.forEach(element => {
         list.push(element)
     });
     magazine.forEach(element => {
         list.push(element)
     }); 
-    list.sort((a, b) => a.title.localeCompare(b.title));
-    console.log(list)
 }
