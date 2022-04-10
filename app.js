@@ -12,8 +12,8 @@ var rl = readline.createInterface({
 
  console.log("Enter 1 to read csv files ")
  console.log("Enter 2 to print books and magazine ")
- console.log("Enter 3 to search by isbn number")
- console.log("Enter 4 to search by authors email id")
+ console.log("Enter 3 to search by isbn number and enter isbn followed by space")
+ console.log("Enter 4 to search by authors email id and enter email followed by space")
  console.log("Enter 5 to sort books,magazine by title")
  console.log("Enter 6 to write books magazine to csv file")
  console.log("Enter close to close") 
@@ -30,6 +30,13 @@ var rl = readline.createInterface({
         case '1':
             readData()
             break;
+        case '2':
+            if(books && magazine)
+              {createList()
+              displayBookMagazine(list)
+              }
+            else console.log("Data not read press 1 first")  
+            break;      
         case '3':
             if(books && magazine)
                findByISB(parameter)
@@ -48,18 +55,15 @@ var rl = readline.createInterface({
             break;    
         case '6':
             if(books && magazine && list.length>0) writer.writeCsv(list)
-            else if(list.length==0) {createList() 
+            else if(books && magazine) {createList() 
                                      writer.writeCsv(list)
                                     }
             else console.log("Data not read press 1 first")                        
             break;    
-        case '2':
-            displayBookMagazine()
-            break;           
+        
         case 'close':
             console.log('Have a great day!');
             process.exit(0);
-
         default:
             console.log('Say what? I might have heard `' + line.trim() + '`');
         break;
@@ -100,7 +104,8 @@ function findByISB(isbn)
     magazine.map((row)=>{
         if(row.isbn === isbn) res.push(row)
     })
-    console.log(res)
+    //console.log(res)
+    displayBookMagazine(res)
     //console.log(JSON.stringify(res))
 }
 
@@ -114,7 +119,7 @@ function findByEmail(email)
         if(row.authors === email) res.push(row)
     })
     
-    console.log(res)   
+   displayBookMagazine(res) 
 }
 
 function sortByTitle()
@@ -122,11 +127,12 @@ function sortByTitle()
    if(list.length===0) createList()
 
     list.sort((a, b) => a.title.localeCompare(b.title));
-    console.log(list)
+    //console.log(list)
+    displayBookMagazine(list)
 }
 
 function createList()
-{
+{  if(list.length>0) return;
     books.forEach(element => {
         list.push(element)
     });
