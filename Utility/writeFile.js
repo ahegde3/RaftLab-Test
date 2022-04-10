@@ -37,6 +37,6 @@ const data = [
     }
   ];
   
-  writeCsv(data)
+  
 
   module.exports={writeCsv}
